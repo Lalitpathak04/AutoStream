@@ -37,7 +37,6 @@ if prompt := st.chat_input("What is on your mind?"):
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             
-            # 1. Define the System Instruction separately (The "Rules")
             system_instruction = SystemMessage(content=f"""
             You are a Lead Conversion Agent for AutoStream. 
             
@@ -58,30 +57,28 @@ if prompt := st.chat_input("What is on your mind?"):
             {pricing_str}
             """)
 
-            # 2. Build a clean message list
-            # We pass the history as a list of message objects, NOT an f-string.
+           
             input_messages = [system_instruction]
             
-            # Convert session state dicts back to LangChain message objects if needed
+            
             for msg in st.session_state.messages:
                 if msg["role"] == "user":
                     input_messages.append(HumanMessage(content=msg["content"]))
                 else:
                     input_messages.append(AIMessage(content=msg["content"]))
             
-            # Add the latest user prompt
+            
             input_messages.append(HumanMessage(content=prompt))
 
-            # 3. Invoke the model
-            # Assuming your LangGraph/Chain expects "history" to be the list of messages
+            
             output = chatbot.invoke(
                 {"history": input_messages},
                 config={}   
             )
             
-            # 4. Extract and display reply
+            
             reply = output["history"][-1].content.split("<function=")[0].strip()  # Clean up any tool call artifacts
             st.markdown(reply)
 
-            # 5. Save to session state
+            
             st.session_state.messages.append({"role": "assistant", "content": reply})
