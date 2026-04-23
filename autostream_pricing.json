@@ -1,0 +1,22 @@
+{
+    "product": "AutoStream",
+    "plans": [
+        {
+            "name": "Basic Plan",
+            "price_per_month_usd": 29,
+            "features": [
+                "10 videos/month",
+                "720p resolution"
+            ]
+        },
+        {
+            "name": "Pro Plan",
+            "price_per_month_usd": 79,
+            "features": [
+                "Unlimited videos",
+                "4K resolution",
+                "AI captions"
+            ]
+        }
+    ]
+}
