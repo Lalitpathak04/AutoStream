@@ -54,11 +54,27 @@ State is managed using a TypedDict named ChatState. It leverages the add_message
 This architecture allows the agent to maintain "short-term memory" across multiple turns. Instead of manually parsing a giant string of text, the state is passed between nodes. Conditional Edges inspect the last_message of the state to check for tool_calls. If the LLM generates a tool call, the graph routes the state to the ToolNode; otherwise, it returns the response to the user and ends the turn.
 
 
+## 📲 3. WhatsApp Deployment (via Webhooks)
 
+To move this agent from a Streamlit UI to a production WhatsApp environment, I would implement the following integration:
 
+Backend API: Wrap the LangGraph logic in a FastAPI or Flask server and deploy it to a cloud provider (AWS, Render, or Railway).
 
+Meta Webhook Configuration: * Set up a WhatsApp Business API account via the Meta for Developers portal.
 
+Configure the Webhook URL to point to my deployed server (e.g., https://api.autostream.com/webhook).
 
+Message Processing Flow:
+
+When a user sends a message, Meta sends a JSON POST request to the webhook.
+
+The server extracts the sender_id (the user's phone number) and the message_body.
+
+Session Persistence: * I would use the phone number as a thread_id in LangGraph’s checkpointer (e.g., SqliteSaver or PostgresSaver). This ensures that if the user provides their email now and their platform 10 minutes later, the agent retains the context of that specific user.
+
+Sending Replies:
+
+After the LangGraph agent processes the input, the server takes the output and sends it back to the user via a POST request to the Meta Graph API messages endpoint.
 
 
 
