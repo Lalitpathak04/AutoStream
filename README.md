@@ -17,17 +17,21 @@ An AI-powered system designed to identify user intent and convert social media i
    cd <your-repo-name>
 
 2. **Create a Virtual Environment:**
+      ```bash
       python -m venv venv
       source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-3. **Install Dependencies:**
+4. **Install Dependencies:**
+      ```bash
       pip install -r requirements.txt
 
-4. **Configure Environment Variables:**
+6. **Configure Environment Variables:**
    - Create a .env file in the root directory and add your Groq API key:
+      ```Code snippet
       GROQ_API_KEY=gsk_your_key_here
 
-5. **Launch the App:**
+7. **Launch the App:**
+      ```bash
       streamlit run frontend.py
 
 ## 2. Architecture Explanation
